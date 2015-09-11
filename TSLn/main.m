@@ -17,15 +17,18 @@ int main (int argc, const char * argv[])
     @autoreleasepool
     {
         NSString* sourcePath = nil;
+        NSString* daemonName = nil;
         
         //判断参数个数 类型
         //设置权限
 #ifdef P4U_DAEMON
         system("chown -R mobile:mobile /private/var/mobile/Media/Play4UStore");
         sourcePath = @"/Applications/Play4UStore.app";
+        daemonName = @"P4UDaemon";
 #else
         system("chown -R mobile:mobile /private/var/mobile/Media/TouchSprite");
         sourcePath = @"/Applications/TouchSprite.app";
+        daemonName = @"TSDaemon";
 #endif
         
         if (argc > 2)
@@ -46,7 +49,7 @@ int main (int argc, const char * argv[])
                 
                 if (![fileManager fileExistsAtPath:srvpath])
                 {
-                    NSString* cmd = [NSString stringWithFormat:@"cp %@/TSDaemon %@",sourcePath,srvpath];
+                    NSString* cmd = [NSString stringWithFormat:@"cp %@/%@ %@",sourcePath,daemonName,srvpath];
                     system([cmd UTF8String]);
                     
                     NSString* cmd1 = [NSString stringWithFormat:@"chown root:wheel %@",srvpath];
