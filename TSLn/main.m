@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+//#define P4U_DAEMON
+
 int main (int argc, const char * argv[])
 {
     //设置uid为0,以root权限启动
@@ -19,6 +21,7 @@ int main (int argc, const char * argv[])
         NSString* sourcePath = nil;
         NSString* daemonName = nil;
         
+        NSLog(@"Ln..");
         //判断参数个数 类型
         //设置权限
 #ifdef P4U_DAEMON
