@@ -22,8 +22,6 @@ int main (int argc, const char * argv[])
     {
         NSString* sourcePath = nil;
         NSString* daemonName = nil;
-        
-        NSLog(@"Ln..");
         //判断参数个数 类型
         //设置权限
 #ifdef P4U_DAEMON
