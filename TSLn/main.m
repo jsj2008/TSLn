@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonCryptor.h>
 
 //#define P4U_DAEMON
 
@@ -90,6 +92,47 @@ int main (int argc, const char * argv[])
                 NSString* cmd = [NSString stringWithFormat:@"mv %@/%@ %@",sourcePath,[targetPath lastPathComponent],srvpath];
                 
                 system([cmd UTF8String]);
+            }
+            //判断服务MD5
+            else if (type == 3 && argc == 3)
+            {
+                NSString* path = [NSString stringWithUTF8String:argv[2]];
+                NSData		* data		= [NSData dataWithContentsOfFile:path];
+                const char	* cStr		= (const char *) data.bytes;
+                
+                unsigned char result[CC_MD5_DIGEST_LENGTH];
+                CC_MD5 (cStr, (CC_LONG)data.length, result);
+                
+                NSString* ret = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+                       result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7],
+                       result[8], result[9], result[10], result[11], result[12], result[13], result[14], result[15]];
+                
+                //发送MD5
+                /* 创建URL对象 */
+                NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"https://auth.touchsprite.com/getPlay4UKey?d=%@",ret]];
+                /* 创建一个请求,参数分别为URL,缓存方式(忽略本地缓存),连接超时时间 */
+                NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url
+                                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                                    timeoutInterval:10.0f];
+                /* 连接方式为Post */
+                [request setHTTPMethod:@"GET"];
+                /* 发起同步连接 */
+                NSHTTPURLResponse	* response	= nil;
+                NSError			* error		= nil;
+                NSData			* recvdata  = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                if ( !error )
+                {
+                    if (recvdata)
+                    {
+                        NSString* recvstr = [[NSString alloc] initWithData:recvdata encoding:NSUTF8StringEncoding];
+                        if ([recvstr isEqualToString:@"getKeySuccess"])
+                        {
+                            NSString* kpn = [NSString stringWithFormat:@"killall %@",[path lastPathComponent]];
+                            system([kpn UTF8String]);
+                        }
+                        [recvstr release];
+                    }
+                }
             }
         }
     }
