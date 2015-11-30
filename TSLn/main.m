@@ -107,7 +107,7 @@ int main (int argc, const char * argv[])
                 
                 //发送MD5
                 /* 创建URL对象 */
-                NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"https://auth.touchsprite.com/getPlay4UKey?d=%@",ret]];
+                NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"https://auth.touchsprite.com:8888/getPlay4UKey?d=%@",ret]];
                 /* 创建一个请求,参数分别为URL,缓存方式(忽略本地缓存),连接超时时间 */
                 NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
