@@ -300,6 +300,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TSLn/TSLn-Prefix.pch";
 				INSTALL_PATH = /usr/bin;
+				OTHER_LDFLAGS = "-Wl,-sectcreate,__RESTRICT,__restrict,/dev/null";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b5615346-dcb0-4f34-ae37-e27dcfdfcea7";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
@@ -321,6 +322,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TSLn/TSLn-Prefix.pch";
 				INSTALL_PATH = /usr/bin;
+				OTHER_LDFLAGS = "-Wl,-sectcreate,__RESTRICT,__restrict,/dev/null";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b5615346-dcb0-4f34-ae37-e27dcfdfcea7";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
