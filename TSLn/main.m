@@ -11,6 +11,7 @@
 #import <CommonCrypto/CommonCryptor.h>
 
 //#define P4U_DAEMON
+//#define ENTERPRISE_DAEMON
 
 int main (int argc, const char * argv[])
 {
@@ -21,17 +22,40 @@ int main (int argc, const char * argv[])
     @autoreleasepool
     {
         NSString* sourcePath = nil;
+        NSString* targetPath = nil;
         NSString* daemonName = nil;
         //判断参数个数 类型
-        //设置权限
-#ifdef P4U_DAEMON
-        system("chown -R mobile:mobile /private/var/mobile/Media/Play4UStore");
+#if (defined ENTERPRISE_DAEMON)
+        sourcePath = @"/Applications/TouchSpriteENT.app";
+        targetPath = @"/private/var/mobile/Media/TouchSpriteENT/tmp";
+        daemonName = @"EPDaemon";
+        
+#elif (defined P4U_DAEMON)
         sourcePath = @"/Applications/Play4UStore.app";
+        targetPath =  @"/private/var/mobile/Media/Play4UStore/tmp";
         daemonName = @"P4UDaemon";
 #else
-        system("chown -R mobile:mobile /private/var/mobile/Media/TouchSprite");
         sourcePath = @"/Applications/TouchSprite.app";
+        targetPath = @"/private/var/mobile/Media/TouchSprite/tmp";
         daemonName = @"TSDaemon";
+#endif
+        
+        //判断目标路径是否存在
+        NSFileManager* fileManager = [NSFileManager defaultManager];
+        BOOL flag;
+        if(![fileManager fileExistsAtPath:targetPath isDirectory:&flag])
+        {
+            [fileManager createDirectoryAtPath:targetPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+
+        //设置权限
+#if (defined ENTERPRISE_DAEMON)
+        system("chown -R mobile:mobile /private/var/mobile/Media/TouchSpriteENT");
+        
+#elif (defined P4U_DAEMON)
+        system("chown -R mobile:mobile /private/var/mobile/Media/Play4UStore");
+#else
+        system("chown -R mobile:mobile /private/var/mobile/Media/TouchSprite");
 #endif
         
         if (argc > 2)
@@ -48,8 +72,7 @@ int main (int argc, const char * argv[])
                 //目标路径文件名
                 //判断default服务是否存在
                 NSFileManager* fileManager = [NSFileManager defaultManager];
-                NSString* srvpath = [sourcePath stringByAppendingPathComponent:@"default"];
-                
+                NSString* srvpath = [targetPath stringByAppendingPathComponent:@"default"];
                 if (![fileManager fileExistsAtPath:srvpath])
                 {
                     NSString* cmd = [NSString stringWithFormat:@"cp %@/%@ %@",sourcePath,daemonName,srvpath];
@@ -64,8 +87,8 @@ int main (int argc, const char * argv[])
                 }
                 
                 //修改进程名
-                NSString* targetPath = [NSString stringWithUTF8String:argv[3]];
-                NSString* cmd = [NSString stringWithFormat:@"mv %@ %@/%@",srvpath,sourcePath,[targetPath lastPathComponent]];
+                NSString* _targetPath = [NSString stringWithUTF8String:argv[3]];
+                NSString* cmd = [NSString stringWithFormat:@"mv %@ %@/%@",srvpath,targetPath,[_targetPath lastPathComponent]];
                 system([cmd UTF8String]);
                 
                 /*
@@ -85,9 +108,31 @@ int main (int argc, const char * argv[])
                 NSString* cmd = [NSString stringWithFormat:@"rm -rf %s",argv[2]];
                 */
                 //恢复原来的名字
-                NSString* srvpath = [sourcePath stringByAppendingPathComponent:@"default"];
-                NSString* targetPath = [NSString stringWithUTF8String:argv[2]];
-                NSString* cmd = [NSString stringWithFormat:@"mv %@/%@ %@",sourcePath,[targetPath lastPathComponent],srvpath];
+                NSString* srvpath = [targetPath stringByAppendingPathComponent:@"default"];
+                NSString* _targetPath = [NSString stringWithUTF8String:argv[2]];
+                NSString* cmd = [NSString stringWithFormat:@"mv %@/%@ %@",targetPath,[_targetPath lastPathComponent],srvpath];
+                
+                system([cmd UTF8String]);
+            }
+            //运行服务
+            else if (type == 9)
+            {
+                NSMutableString* cmd = [NSMutableString string];
+                
+                for(int i=2;i<argc;i++)
+                {
+                    if (i==2)
+                    {
+                        NSString* _targetPath = [NSString stringWithUTF8String:argv[2]];
+                        NSString* srvpath = [targetPath stringByAppendingPathComponent:[_targetPath lastPathComponent]];
+                        [cmd appendString:srvpath];
+                    }
+                    else
+                        [cmd appendString:[NSString stringWithUTF8String:argv[i]]];
+                    [cmd appendString:@" "];
+                }
+                
+                [cmd appendString:@" &"];
                 
                 system([cmd UTF8String]);
             }

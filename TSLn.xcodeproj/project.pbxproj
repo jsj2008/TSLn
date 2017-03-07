@@ -21,7 +21,7 @@
 		CF436B641B56B232006B52CA /* 0xdeadfa11 */ = {isa = PBXFileReference; lastKnownFileType = text; name = 0xdeadfa11; path = Package/usr/bin/0xdeadfa11; sourceTree = "<group>"; };
 		CF436B651B56B232006B52CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CF436B671B56B232006B52CA /* TSLn-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TSLn-Prefix.pch"; sourceTree = "<group>"; };
-		CF995C8A1B8AC536007BFCD0 /* P4ULn */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = P4ULn; path = P4ULn.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF995C8A1B8AC536007BFCD0 /* P4ULn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = P4ULn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +117,7 @@
 		CF995C8B1B8AC536007BFCD0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CF995C8A1B8AC536007BFCD0 /* P4ULn */,
+				CF995C8A1B8AC536007BFCD0 /* P4ULn.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,7 +155,7 @@
 			);
 			name = P4ULn;
 			productName = TSLn;
-			productReference = CF995C8A1B8AC536007BFCD0 /* P4ULn */;
+			productReference = CF995C8A1B8AC536007BFCD0 /* P4ULn.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
