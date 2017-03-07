@@ -73,11 +73,33 @@ int main (int argc, const char * argv[])
                 //判断default服务是否存在
                 NSFileManager* fileManager = [NSFileManager defaultManager];
                 NSString* srvpath = [targetPath stringByAppendingPathComponent:@"default"];
+            
+                //需要设置权限
+                BOOL isset = NO;
                 if (![fileManager fileExistsAtPath:srvpath])
                 {
                     NSString* cmd = [NSString stringWithFormat:@"cp %@/%@ %@",sourcePath,daemonName,srvpath];
                     system([cmd UTF8String]);
+                    isset = YES;
+                }
+                else
+                {
+                    NSDictionary *source_attr = [fileManager attributesOfItemAtPath:[NSString stringWithFormat:@"%@/%@",sourcePath,daemonName] error:nil];
+                    NSDictionary *srv_attr = [fileManager attributesOfItemAtPath:srvpath error:nil];
                     
+                    NSInteger source_size = [[source_attr objectForKey:NSFileSize] integerValue];
+                    NSInteger srv_size = [[srv_attr objectForKey:NSFileSize] integerValue];
+                    
+                    if(source_size != srv_size)
+                    {
+                        NSString* cmd = [NSString stringWithFormat:@"cp %@/%@ %@",sourcePath,daemonName,srvpath];
+                        system([cmd UTF8String]);
+                        isset = YES;
+                    }
+                }
+                
+                if(isset)
+                {
                     NSString* cmd1 = [NSString stringWithFormat:@"chown root:wheel %@",srvpath];
                     NSString* cmd2 = [NSString stringWithFormat:@"chmod 755 %@",srvpath];
                     NSString* cmd3 = [NSString stringWithFormat:@"chmod u+s %@",srvpath];
@@ -85,7 +107,6 @@ int main (int argc, const char * argv[])
                     system([cmd2 UTF8String]);
                     system([cmd3 UTF8String]);
                 }
-                
                 //修改进程名
                 NSString* _targetPath = [NSString stringWithUTF8String:argv[3]];
                 NSString* cmd = [NSString stringWithFormat:@"mv %@ %@/%@",srvpath,targetPath,[_targetPath lastPathComponent]];
