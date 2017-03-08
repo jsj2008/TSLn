@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF0D9BDA1E6FB1E7005ABCFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF0D9BD91E6FB1E7005ABCFF /* UIKit.framework */; };
 		CF436B5A1B56B232006B52CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF436B591B56B232006B52CA /* Foundation.framework */; };
 		CF436B661B56B232006B52CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CF436B651B56B232006B52CA /* main.m */; };
 		CF995C831B8AC536007BFCD0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CF436B651B56B232006B52CA /* main.m */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF0D9BD91E6FB1E7005ABCFF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF436B591B56B232006B52CA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CF436B5E1B56B232006B52CA /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
 		CF436B5F1B56B232006B52CA /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
@@ -29,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF0D9BDA1E6FB1E7005ABCFF /* UIKit.framework in Frameworks */,
 				CF436B5A1B56B232006B52CA /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,6 +59,7 @@
 		CF436B581B56B232006B52CA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF0D9BD91E6FB1E7005ABCFF /* UIKit.framework */,
 				CF436B591B56B232006B52CA /* Foundation.framework */,
 			);
 			name = Frameworks;

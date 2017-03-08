@@ -9,9 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
+#import <UIKit/UIKit.h>
 
 //#define P4U_DAEMON
 //#define ENTERPRISE_DAEMON
+
+#define MO_VER 9.0f
 
 int main (int argc, const char * argv[])
 {
@@ -24,19 +27,38 @@ int main (int argc, const char * argv[])
         NSString* sourcePath = nil;
         NSString* targetPath = nil;
         NSString* daemonName = nil;
+        
+        //当前版本号
+        float ver = [UIDevice currentDevice].systemVersion.floatValue;
+        
         //判断参数个数 类型
 #if (defined ENTERPRISE_DAEMON)
         sourcePath = @"/Applications/TouchSpriteENT.app";
-        targetPath = @"/private/var/mobile/Media/TouchSpriteENT/tmp";
+        
+        if (ver >= MO_VER)
+            targetPath = @"/private/var/mobile/Media/TouchSpriteENT/tmp";
+        else
+            targetPath = sourcePath;
+        
         daemonName = @"EPDaemon";
         
 #elif (defined P4U_DAEMON)
         sourcePath = @"/Applications/Play4UStore.app";
-        targetPath =  @"/private/var/mobile/Media/Play4UStore/tmp";
+        
+        if (ver >= MO_VER)
+            targetPath =  @"/private/var/mobile/Media/Play4UStore/tmp";
+        else
+            targetPath = sourcePath;
+        
         daemonName = @"P4UDaemon";
 #else
         sourcePath = @"/Applications/TouchSprite.app";
-        targetPath = @"/private/var/mobile/Media/TouchSprite/tmp";
+        
+        if (ver >= MO_VER)
+            targetPath = @"/private/var/mobile/Media/TouchSprite/tmp";
+        else
+            targetPath = sourcePath;
+        
         daemonName = @"TSDaemon";
 #endif
         
