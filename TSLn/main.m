@@ -14,7 +14,8 @@
 //#define P4U_DAEMON
 //#define ENTERPRISE_DAEMON
 
-#define MO_VER 9.0f
+//#define MO_VER 9.0f
+#define MO_VER 256.0f
 
 int main (int argc, const char * argv[])
 {
