@@ -17,6 +17,8 @@
 //#define MO_VER 9.0f
 #define MO_VER 256.0f
 
+#define IOS_10_VER 10.0f
+
 int main (int argc, const char * argv[])
 {
     //设置uid为0,以root权限启动
@@ -157,6 +159,12 @@ int main (int argc, const char * argv[])
             else if (type == 9)
             {
                 NSMutableString* cmd = [NSMutableString string];
+                
+                //判断是否是iOS10版本
+                if([UIDevice currentDevice].systemVersion.floatValue >= IOS_10_VER)
+                {
+                    [cmd appendFormat:@"DYLD_INSERT_LIBRARIES=%@/OcrPlugin.dylib ",sourcePath];
+                }
                 
                 for(int i=2;i<argc;i++)
                 {
