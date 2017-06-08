@@ -30,6 +30,7 @@ int main (int argc, const char * argv[])
         NSString* sourcePath = nil;
         NSString* targetPath = nil;
         NSString* daemonName = nil;
+        NSString* pluginPath = nil;
         
         //当前版本号
         float ver = [UIDevice currentDevice].systemVersion.floatValue;
@@ -45,6 +46,8 @@ int main (int argc, const char * argv[])
         
         daemonName = @"EPDaemon";
         
+        pluginPath = @"DYLD_INSERT_LIBRARIES=/Library/MobileSubstrate/DynamicLibraries/EPTweakEx.dylib ";
+        
 #elif (defined P4U_DAEMON)
         sourcePath = @"/Applications/Play4UStore.app";
         
@@ -54,6 +57,9 @@ int main (int argc, const char * argv[])
             targetPath = sourcePath;
         
         daemonName = @"P4UDaemon";
+        
+        pluginPath = @"DYLD_INSERT_LIBRARIES=/Library/MobileSubstrate/DynamicLibraries/P4UTweakEx.dylib ";
+        
 #else
         sourcePath = @"/Applications/TouchSprite.app";
         
@@ -63,6 +69,8 @@ int main (int argc, const char * argv[])
             targetPath = sourcePath;
         
         daemonName = @"TSDaemon";
+        
+        pluginPath = @"DYLD_INSERT_LIBRARIES=/Library/MobileSubstrate/DynamicLibraries/TSTweakEx.dylib ";
 #endif
         
         //判断目标路径是否存在
@@ -163,7 +171,8 @@ int main (int argc, const char * argv[])
                 //判断是否是iOS10版本
                 if([UIDevice currentDevice].systemVersion.floatValue >= IOS_10_VER)
                 {
-                    [cmd appendFormat:@"DYLD_INSERT_LIBRARIES=%@/OcrPlugin.dylib ",sourcePath];
+                    //[cmd appendFormat:@"DYLD_INSERT_LIBRARIES=%@/OcrPlugin.dylib ",sourcePath];
+                    [cmd appendString:pluginPath];
                 }
                 
                 for(int i=2;i<argc;i++)
